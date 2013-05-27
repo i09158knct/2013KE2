@@ -16,14 +16,14 @@
 (print "ex1-2: " (ex1-2 3))
 
 
-; ex1-3
+;; ex1-3
 (define (ex1-3 r)
   (* (/ 4 3) r r r 3.14))
 
 (print "ex1-3: " (ex1-3 3))
 
 
-; ex1-4
+;; ex1-4
 (define (ex1-4 a b c)
   (let ((s (/ (+ a b c) 2)))
     (sqrt (* s (- s a) (- s b) (- s c)))))
