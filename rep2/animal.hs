@@ -1,3 +1,5 @@
+import System.IO
+
 data Tree a = Leaf a | Node a (Tree a) (Tree a)
   deriving (Eq, Ord, Read, Show)
 
@@ -28,6 +30,7 @@ yesOrNo :: String -> IO Bool
 yesOrNo question = do
   putStr question
   putStr " (y/n)? "
+  hFlush stdout
   answer <- getLine
   return $ answer == "y"
 
