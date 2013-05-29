@@ -77,7 +77,7 @@
 (define (ex2-4 a b c)
   (let ((x1 (/ (+ (- b) (sqrt (- (* b b) (* 4 a c))))
                (* 2 a)))
-        (x2 (/ (- (- b) (sqrt (- (* b b) (* 4 a c))))
+nnnn        (x2 (/ (- (- b) (sqrt (- (* b b) (* 4 a c))))
                (* 2 a))))
     (list x1 x2)))
 
@@ -194,38 +194,36 @@
 
 
 
-;;; ### WIP ###
+;;;
 ;;; ex5
 ;;;
 
 ;; ex5-1
-(define (ex5-1 n)
-  (letrec ((fact (lambda (n acc)
-                   (if (= n 0)
-                     acc
-                     (ex5-1 (- n 1) (* acc n))))))
-    (fact n 1)))
-
 (define (ex5-1 n)
   (let factorial ((n n) (acc 1))
     (if (= n 0)
       acc
       (factorial (- n 1) (* acc n)))))
 
-
 (print "ex5-1: " (ex5-1 5))
 
+
+;; ex5-2
 (define (ex5-2 x y)
-  (if (= y 0)
-    1
-    (* x (ex5-2 x (- y 1)))))
+  (let power ((n y) (acc 1))
+    (if (= n 0)
+        acc
+        (power (- n 1) (* acc x)))))
 
 (print "ex5-2: " (ex5-2 2 3))
 
+
+;; ex5-3
 (define (ex5-3 n)
-  (if (= n 1)
-    1
-    (+ n (ex5-3 (- n 1)))))
+  (let factor-sum ((n n) (acc 0))
+    (if (= n 0)
+        acc
+        (factor-sum (- n 1) (* acc n)))))
 
 (print "ex5-3: " (ex5-3 10))
 
