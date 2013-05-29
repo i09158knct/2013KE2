@@ -34,7 +34,7 @@
 
 ;;;
 ;;; ex2
-;;; 
+;;;
 
 ;; ex2-1
 (define (ex2-1 n)
@@ -123,7 +123,7 @@ nnnn        (x2 (/ (- (- b) (sqrt (- (* b b) (* 4 a c))))
   (do ((a a b)
        (b b (modulo a b)))
       ((= b 0) a)))
-  
+
 (print "ex3-4: " (ex3-4 30 12))
 
 
@@ -227,6 +227,68 @@ nnnn        (x2 (/ (- (- b) (sqrt (- (* b b) (* 4 a c))))
 
 (print "ex5-3: " (ex5-3 10))
 
+
+
+;;; ### WIP ###
+;;; lx1
+;;;
+
+;; lx1-1
+(define (lx1-1 ls)
+  )
+
+(print "lx1-1: " (lx1-1 '((a b) c (d e))))
+
+
+;; lx1-2
+(define (lx1-2 target ls)
+  )
+
+(print "lx1-2: " (lx1-2 'c '(a b c d e)))
+
+
+;; lx1-3
+(define (lx1-3)
+  )
+
+(print "lx1-3: " (lx1-3 '(a b c d e)))
+
+
+;; lx1-4
+(define (lx1-4)
+  )
+
+(print "lx1-4: " (lx1-4 ))
+
+
+;; lx1-5
+(define (lx1-5)
+  )
+
+(print "lx1-5: " (lx1-5 ))
+
+
+;; lx1-6
+(define (lx1-6)
+  )
+
+(print "lx1-6: " (lx1-6 ))
+
+
+;; lx1-7
+(define (lx1-7)
+  )
+
+(print "lx1-7: " (lx1-7 ))
+
+
+
+
+;; lx2-
+; (define (lx2-)
+;   )
+
+; (print "lx2-: " (lx2- ))
 
 
 
