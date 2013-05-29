@@ -1,4 +1,4 @@
-data Tree a = EmptyTree | Node a (Tree a) (Tree a)
+data Tree a = Leaf a | Node a (Tree a) (Tree a)
   deriving (Eq, Ord, Read, Show)
 
 initBase =
@@ -6,23 +6,23 @@ initBase =
     (Node "温血動物か"
       (Node "こどもを母乳で育てるか"
         (Node "水中に住んでいるか"
-          (Node "いるか" EmptyTree EmptyTree)
+          (Leaf "いるか")
           (Node "一般に飼い慣らされているか"
-            (Node "いぬ" EmptyTree EmptyTree)
-            (Node "とら" EmptyTree EmptyTree)))
+            (Leaf "いぬ")
+            (Leaf "とら")))
         (Node "飛べるか"
-          (Node "こまどり" EmptyTree EmptyTree)
-          (Node "にわとり" EmptyTree EmptyTree)))
+          (Leaf "こまどり")
+          (Leaf "にわとり")))
       (Node "えらを持っていて、一生水中で生活するか"
-        (Node "まぐろ" EmptyTree EmptyTree)
+        (Leaf "まぐろ")
         (Node "最初はえらで、そのうち肺呼吸をするようになるか"
-          (Node "かえる" EmptyTree EmptyTree)
+          (Leaf "かえる")
           (Node "足があるか"
-            (Node "わに" EmptyTree EmptyTree)
-            (Node "へび" EmptyTree EmptyTree)))))
+            (Leaf "わに")
+            (Leaf "へび")))))
     (Node "飛べるか"
-      (Node "か" EmptyTree EmptyTree)
-      (Node "みみず" EmptyTree EmptyTree))
+      (Leaf "か")
+      (Leaf "みみず"))
 
 yesOrNo :: String -> IO Bool
 yesOrNo question = do
@@ -32,7 +32,7 @@ yesOrNo question = do
   return $ answer == "y"
 
 askAnimal :: Tree String -> IO String
-askAnimal (Node animal EmptyTree EmptyTree) = return animal
+askAnimal (Leaf animal) = return animal
 askAnimal (Node question yesTree noTree) = do
   sayYes <- yesOrNo question
   if sayYes
