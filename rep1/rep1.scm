@@ -77,7 +77,7 @@
 (define (ex2-4 a b c)
   (let ((x1 (/ (+ (- b) (sqrt (- (* b b) (* 4 a c))))
                (* 2 a)))
-nnnn        (x2 (/ (- (- b) (sqrt (- (* b b) (* 4 a c))))
+        (x2 (/ (- (- b) (sqrt (- (* b b) (* 4 a c))))
                (* 2 a))))
     (list x1 x2)))
 
@@ -235,51 +235,68 @@ nnnn        (x2 (/ (- (- b) (sqrt (- (* b b) (* 4 a c))))
 
 ;; lx1-1
 (define (lx1-1 ls)
-  )
+  (if (null? ls)
+      0
+      (+ 1 (lx1-1 (cdr ls)))))
 
 (print "lx1-1: " (lx1-1 '((a b) c (d e))))
 
 
 ;; lx1-2
 (define (lx1-2 target ls)
-  )
+  (cond
+   ((null? ls) #f)
+   ((eq? target (car ls)) #t)
+   (#t (lx1-2 target (cdr ls)))))
 
 (print "lx1-2: " (lx1-2 'c '(a b c d e)))
 
 
 ;; lx1-3
-(define (lx1-3)
-  )
+(define (lx1-3 ls)
+  (if (null? (cdr ls))
+      (car ls)
+      (lx1-3 (cdr ls))))
 
 (print "lx1-3: " (lx1-3 '(a b c d e)))
 
 
 ;; lx1-4
-(define (lx1-4)
-  )
+(define (lx1-4 ls index)
+  (if (zero? index)
+      (car ls)
+      (lx1-4 (cdr ls) (- index 1))))
 
-(print "lx1-4: " (lx1-4 ))
+(print "lx1-4: " (lx1-4 '(a b c d e) 3))
 
 
 ;; lx1-5
-(define (lx1-5)
-  )
+(define (lx1-5 target ls)
+  (fold (lambda (x acc) (+ acc (if (eq? x target) 1 0)))
+        0
+        ls))
 
-(print "lx1-5: " (lx1-5 ))
+(print "lx1-5: " (lx1-5 'x '(a b x (x) d x e)))
 
 
 ;; lx1-6
-(define (lx1-6)
-  )
+(define (lx1-6 target ls)
+  (fold (lambda (x acc)
+          (if (eq? x target)
+              acc
+              (append acc (list x))))
+        '()
+        ls))
 
-(print "lx1-6: " (lx1-6 ))
+(print "lx1-6: " (lx1-6 'x '(a b x c (x) d x e)))
 
 
 ;; lx1-7
-(define (lx1-7)
-  )
+(define (lx1-7 target new-value ls)
+  (map (lambda (x) (if (eq? x target) new-value x))
+       ls))
 
-(print "lx1-7: " (lx1-7 ))
+(print "lx1-7: " (lx1-7 'x 'o '(a b x c (x) d x e)))
 
 
 
