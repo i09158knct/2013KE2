@@ -275,7 +275,7 @@
   (fold (lambda (x acc) (+ acc (if (eq? x target) 1 0)))
         0
         ls))
-  
+
 (define (lx1-5 target ls)
   (length (filter (lambda (x) (eq? x target)) ls)))
 
@@ -365,15 +365,12 @@
 
 ;; lx2-5
 (define (lx2-5 target new-value ls)
-  (fold (lambda (x acc)
-          (append acc
-                  (cond
-                   ((list? x) (list (lx2-5 target new-value x)))
-                   ((eq? x target) (list new-value))
-                   (#t (list x)))))
-        '()
-        ls))
-          
+  (map (lambda (x)
+         (cond
+          ((list? x) (lx2-5 target new-value x))
+          ((eq? x target) new-value)
+          (#t x)))
+       ls))
 
 (print "lx2-5: " (lx2-5 'x 'o '(a x (x (a (x b (c d x (x)))) e x))))
 
