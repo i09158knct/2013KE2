@@ -229,7 +229,7 @@
 
 
 
-;;; ### WIP ###
+;;;
 ;;; lx1
 ;;;
 
@@ -275,6 +275,9 @@
   (fold (lambda (x acc) (+ acc (if (eq? x target) 1 0)))
         0
         ls))
+  
+(define (lx1-5 target ls)
+  (length (filter (lambda (x) (eq? x target)) ls)))
 
 (print "lx1-5: " (lx1-5 'x '(a b x (x) d x e)))
 
@@ -288,6 +291,9 @@
         '()
         ls))
 
+(define (lx1-6 target ls)
+  (filter (lambda (x) (not (eq? x target))) ls))
+
 (print "lx1-6: " (lx1-6 'x '(a b x c (x) d x e)))
 
 
@@ -300,13 +306,82 @@
 
 
 
+;;;
+;;; lx2
+;;;
 
-;; lx2-
-; (define (lx2-)
-;   )
+;; lx2-1
+(define (lx2-1 ls)
+  (let ((count-for-elem
+         (lambda (x)
+           (cond
+            ((null? x) 0)
+            ((list? x) (lx2-1 x))
+            (#t 1)))))
+    (apply + (map count-for-elem ls))))
 
-; (print "lx2-: " (lx2- ))
+(print "lx2-1: " (lx2-1 '((a b) c (d e))))
 
 
+;; lx2-2
+(define (lx2-2 target ls)
+  (and (not (null? ls))
+       (or (let ((head (car ls)))
+             (if (list? head)
+                 (lx2-2 target head)
+                 (eq? target head)))
+           (lx2-2 target (cdr ls)))))
 
-;(exit)
+(print "lx2-2: " (lx2-2 'c '(a b (c) d e)))
+
+
+;; lx2-3
+(define (lx2-3 target ls)
+  (let ((count-for-elem
+         (lambda (x)
+           (cond
+            ((null? x) 0)
+            ((list? x) (lx2-3 target x))
+            ((eq? x target) 1)
+            (#t 0)))))
+    (apply + (map count-for-elem ls))))
+
+(print "lx2-3: " (lx2-3 'x '(a x (x (a (x b (c d x (x)))) e x))))
+
+
+;; lx2-4
+(define (lx2-4 target ls)
+  (fold (lambda (x acc)
+          (append acc
+                  (cond
+                   ((list? x) (list (lx2-4 target x)))
+                   ((eq? x target) '())
+                   (#t (list x)))))
+        '()
+        ls))
+
+(print "lx2-4: " (lx2-4 'x '(a x (x (a (x b (c d x (x)))) e x))))
+
+
+;; lx2-5
+(define (lx2-5 target new-value ls)
+  (fold (lambda (x acc)
+          (append acc
+                  (cond
+                   ((list? x) (list (lx2-5 target new-value x)))
+                   ((eq? x target) (list new-value))
+                   (#t (list x)))))
+        '()
+        ls))
+          
+
+(print "lx2-5: " (lx2-5 'x 'o '(a x (x (a (x b (c d x (x)))) e x))))
+
+
+;; lx2-6
+(define (lx2-6 ls)
+  (fold (lambda (x acc) (append acc (if (list? x) (lx2-6 x) (list x))))
+        '()
+        ls))
+
+(print "lx2-6: " (lx2-6 '(a x (x (a (x b (c d x (x)))) e x))))
