@@ -22,7 +22,7 @@
      "みみず")))
 
 (define (yes-or-no? prompt)
-  (display prompt) (display " (y/n)? ")
+  (display prompt) (display " (y/n)? ") (flush)
   (if (eq? (read) 'y) #t #f))
 
 (define (animal tree)
