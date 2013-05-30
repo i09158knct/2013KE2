@@ -23,7 +23,7 @@
 
 (define (yes-or-no? prompt)
   (display prompt) (display " (y/n)? ") (flush)
-  (if (eq? (read) 'y) #t #f))
+  (eq? (read) 'y))
 
 (define (animal tree)
   (if (list? tree)
