@@ -223,7 +223,7 @@
   (let factor-sum ((n n) (acc 0))
     (if (= n 0)
         acc
-        (factor-sum (- n 1) (* acc n)))))
+        (factor-sum (- n 1) (+ acc n)))))
 
 (print "ex5-3: " (ex5-3 10))
 
