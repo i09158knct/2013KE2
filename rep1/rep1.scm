@@ -246,7 +246,7 @@
 (define (lx1-2 target ls)
   (cond
    ((null? ls) #f)
-   ((eq? target (car ls)) #t)
+   ((equal? target (car ls)) #t)
    (#t (lx1-2 target (cdr ls)))))
 
 (print "lx1-2: " (lx1-2 'c '(a b c d e)))
@@ -272,34 +272,53 @@
 
 ;; lx1-5
 (define (lx1-5 target ls)
-  (fold (lambda (x acc) (+ acc (if (eq? x target) 1 0)))
+  (if (null? ls)
+      0
+      (+ (if (equal? (car ls) target) 1 0)
+         (lx1-5 target (cdr ls)))))
+
+(define (lx1-5 target ls)
+  (fold (lambda (x acc) (+ acc (if (equal? x target) 1 0)))
         0
         ls))
 
 (define (lx1-5 target ls)
-  (length (filter (lambda (x) (eq? x target)) ls)))
+  (length (filter (lambda (x) (equal? x target)) ls)))
 
 (print "lx1-5: " (lx1-5 'x '(a b x (x) d x e)))
 
 
 ;; lx1-6
 (define (lx1-6 target ls)
+  (if (null? ls)
+      ls
+      (if (equal? (car ls) target)
+          (lx1-6 target (cdr ls))
+          (cons (car ls) (lx1-6 target (cdr ls))))))
+
+(define (lx1-6 target ls)
   (fold (lambda (x acc)
-          (if (eq? x target)
+          (if (equal? x target)
               acc
               (append acc (list x))))
         '()
         ls))
 
 (define (lx1-6 target ls)
-  (filter (lambda (x) (not (eq? x target))) ls))
+  (filter (lambda (x) (not (equal? x target))) ls))
 
 (print "lx1-6: " (lx1-6 'x '(a b x c (x) d x e)))
 
 
 ;; lx1-7
 (define (lx1-7 target new-value ls)
-  (map (lambda (x) (if (eq? x target) new-value x))
+  (if (null? ls)
+      ls
+      (cons (if (equal? (car ls) target) new-value (car ls))
+            (lx1-7 target new-value (cdr ls)))))
+
+(define (lx1-7 target new-value ls)
+  (map (lambda (x) (if (equal? x target) new-value x))
        ls))
 
 (print "lx1-7: " (lx1-7 'x 'o '(a b x c (x) d x e)))
@@ -320,16 +339,20 @@
             (#t 1)))))
     (apply + (map count-for-elem ls))))
 
+(define (lx2-1 ls)
+  (if (null? ls)
+      0
+      (+ (if (list? (car ls)) (lx2-1 (car ls)) 1)
+         (lx2-1 (cdr ls)))))
+
 (print "lx2-1: " (lx2-1 '((a b) c (d e))))
 
 
 ;; lx2-2
 (define (lx2-2 target ls)
-  (and (not (null? ls))
-       (or (let ((head (car ls)))
-             (if (list? head)
-                 (lx2-2 target head)
-                 (eq? target head)))
+  (and (pair? ls)
+       (or (equal? target (car ls))
+           (lx2-2 target (car ls))
            (lx2-2 target (cdr ls)))))
 
 (print "lx2-2: " (lx2-2 'c '(a b (c) d e)))
@@ -337,12 +360,23 @@
 
 ;; lx2-3
 (define (lx2-3 target ls)
+  (cond
+   ((equal? ls target) 1)
+   ((null? ls) 0)
+   (#t (let ((x (car ls))
+             (rest-value (lx2-3 target (cdr ls))))
+         (+ (cond
+             ((equal? x target) 1)
+             ((list? x) (lx2-3 target x))
+             (#t 0))
+            rest-value)))))
+
+(define (lx2-3 target ls)
   (let ((count-for-elem
          (lambda (x)
            (cond
-            ((null? x) 0)
+            ((equal? x target) 1)
             ((list? x) (lx2-3 target x))
-            ((eq? x target) 1)
             (#t 0)))))
     (apply + (map count-for-elem ls))))
 
@@ -351,11 +385,22 @@
 
 ;; lx2-4
 (define (lx2-4 target ls)
+  (cond
+   ((equal? ls target) '())
+   ((null? ls) '())
+   (#t (let ((x (car ls))
+             (rest (lx2-4 target (cdr ls))))
+         (cond
+          ((equal? x target) rest)
+          ((list? x) (cons (lx2-4 target x) rest))
+          (#t (cons x rest)))))))
+
+(define (lx2-4 target ls)
   (fold (lambda (x acc)
           (append acc
                   (cond
+                   ((equal? x target) '())
                    ((list? x) (list (lx2-4 target x)))
-                   ((eq? x target) '())
                    (#t (list x)))))
         '()
         ls))
@@ -365,10 +410,22 @@
 
 ;; lx2-5
 (define (lx2-5 target new-value ls)
+  (cond
+   ((equal? ls target) new-value)
+   ((null? ls) '())
+   (#t (let ((x (car ls))
+             (rest (lx2-5 target new-value (cdr ls))))
+         (cons (cond
+                ((equal? x target) new-value)
+                ((list? x) (lx2-5 target new-value x))
+                (#t x))
+               rest)))))
+
+(define (lx2-5 target new-value ls)
   (map (lambda (x)
          (cond
+          ((equal? x target) new-value)
           ((list? x) (lx2-5 target new-value x))
-          ((eq? x target) new-value)
           (#t x)))
        ls))
 
@@ -376,6 +433,13 @@
 
 
 ;; lx2-6
+(define (lx2-6 ls)
+  (if (pair? ls)
+      ((if (list? (car ls)) append cons)
+       (lx2-6 (car ls))
+       (lx2-6 (cdr ls)))
+      ls))
+
 (define (lx2-6 ls)
   (fold (lambda (x acc) (append acc (if (list? x) (lx2-6 x) (list x))))
         '()
