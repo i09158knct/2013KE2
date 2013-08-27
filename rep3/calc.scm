@@ -123,7 +123,7 @@
 (define arg2 '())  ; 第２引数
 
 ;; For Gauche
-(define write print)
+(define write display)
 (define eval (let* ((eval-original eval)) (lambda (e) (eval-original e '()))))
 
-(print (calc '(3 + 2 * 4 - 6 / 2)))
+(calc '(3 + 2 * 4 - 6 / 2))
