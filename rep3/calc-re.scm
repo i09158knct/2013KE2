@@ -2,7 +2,7 @@
 
 (define (calc expression)
   (let* ((postfix (in2post expression))
-        (result (eval-post postfix)))
+         (result (eval-post postfix)))
     (print "infix = " expression)
     (print "postfix = " postfix)
     (print "ans. = " result)))
